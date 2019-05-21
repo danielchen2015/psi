@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="Access-Control-Allow-Origin" content="">
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="application/javascript">
+    var userUrl = "http://psi/api/Org/orderAdd";
+    var post_data = {
+        "template_id": "BFA909BC-4100-11E9-88F5-00FF8088E341",
+        "company_id": "80C42EC1-40FC-11E9-88F5-00FF8088E341",
+        "memo": "上海吴中路1189号",
+        "ordertime": 1558137600,
+        "items": [{
+            "goods_id": 1,
+            "name": "玫瑰花",
+            "unit_id": 1,
+            "unit_name": "把",
+            "show_order": 0,
+            "company_id": "4D74E1E4-A129-11E4-9B6A-782BCBD7746B",
+            "goods_count": "1"
+        }, {
+            "goods_id": 2,
+            "name": "百合花",
+            "unit_id": 2,
+            "unit_name": "斤",
+            "show_order": 1,
+            "company_id": "4D74E1E4-A129-11E4-9B6A-782BCBD7746B",
+            "goods_count": "2"
+        }, {
+            "goods_id": 3,
+            "name": "茉莉花",
+            "unit_id": 3,
+            "unit_name": "包",
+            "show_order": 2,
+            "company_id": "4D74E1E4-A129-11E4-9B6A-782BCBD7746B",
+            "goods_count": "3"
+        }]
+    }
+
+    console.log(userUrl);
+    $.ajax({
+        url: userUrl,
+        type: 'post',
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify(post_data),
+        success: function (data) {
+            //调用成功
+            //console.log("in");
+            console.log(data);
+        },
+        error: function (data, textStatus, errorThrown) {
+            //调用失败
+            console.log(data, errorThrown);
+        }
+    });
+    /*$.ajax({
+        url: userUrl,
+        type: 'get',
+        contentType: "application/json; charset=utf-8",
+        data: "",//JSON.stringify(post_data),
+        success: function (data) {
+            //调用成功
+            console.log("in");
+            console.log(data);
+        },
+        error: function (data, textStatus, errorThrown) {
+            //调用失败
+            console.log(data.responseText);
+        }
+    });*/
+</script>
+</html>

@@ -1,0 +1,30 @@
+<layout name="layout" />
+
+<script src="{$uri}Public/Scripts/PSI/Employee/MainForm.js?dt={$dtFlag}"
+        type="text/javascript"></script>
+<script src="{$uri}Public/Scripts/PSI/Employee/EmployeeEditForm.js?dt={$dtFlag}"
+        type="text/javascript"></script>
+<script
+        src="{$uri}Public/Scripts/PSI/Employee/AddUserPasswordForm.js?dt={$dtFlag}"
+        type="text/javascript"></script>
+
+<script>
+    Ext.onReady(function() {
+        PSI.Const.PROD_NAME = "{$productionName}";
+
+        var app = Ext.create("PSI.App", {
+            userName : "{$loginUserName}",
+            productionName : "{$productionName}",
+            appHeaderInfo : {
+                title : "{$title}",
+                iconCls : "PSI-fid-4001"
+            }
+        });
+
+        app.add(Ext.create("PSI.Employee.MainForm", {
+            pAddUser : "{$pAddUser}",
+            pEditUser : "{$pEditUser}",
+            pDeleteUser : "{$pDeleteUser}"
+        }));
+    });
+</script>

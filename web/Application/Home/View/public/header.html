@@ -1,0 +1,38 @@
+<!--header start-->
+<header class="header white-bg">
+    <div class="sidebar-toggle-box">
+        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+    </div>
+    <!--logo start-->
+    <a href="{$uri}" class="logo">返回</span></a>
+    <!--logo end-->
+    <div class="top-nav ">
+        <!--search & user info start-->
+        <ul class="nav pull-right top-menu">
+            <li>
+                <input type="text" class="form-control search" placeholder="Search">
+            </li>
+            <!-- user login dropdown start-->
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <img alt="" src="__IMG__/avatar1_small.jpg">
+                    <span class="username">{$username}</span>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu extended logout">
+                    <div class="log-arrow-up"></div>
+                    <li><a href="{:url('User/profile',['id'=>$userid])}"><i class=" fa fa-suitcase"></i>个人中心</a></li>
+                    <li><a href="{:url('Config/setting')}"><i class="fa fa-cog"></i> 设置中心</a></li>
+                    <li><a href="{:url('Vehicle/lists',['userid'=>$userid])}"><i class="fa fa-bell-o"></i> 我的车辆</a></li>
+                    <li><a href="{:url('User/loginOut')}"><i class="fa fa-key"></i>退 出</a></li>
+                </ul>
+            </li>
+            <li class="sb-toggle-right">
+                <i class="fa  fa-align-right"></i>
+            </li>
+            <!-- user login dropdown end -->
+        </ul>
+        <!--search & user info end-->
+    </div>
+</header>
+<!--header end-->

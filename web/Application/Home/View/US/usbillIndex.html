@@ -1,0 +1,44 @@
+<layout name="layout" />
+
+<script
+	src="{$uri}Public/Scripts/PSI/User/OrgWithDataOrgField.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+<script src="{$uri}Public/Scripts/PSI/Goods/GoodsField.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+
+<script src="{$uri}Public/Scripts/PSI/US/MainForm.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+<script src="{$uri}Public/Scripts/PSI/US/EditForm.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+<script src="{$uri}Public/Scripts/PSI/US/SelectUSTemplateForm.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+<script src="{$uri}Public/Scripts/PSI/Warehouse/WarehouseField.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+<script src="{$uri}Public/Scripts/PSI/User/UserField.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+
+<script src="{$uri}Public/Scripts/PSI/UX/CellEditing.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+
+<script>
+	Ext.onReady(function() {
+		var app = Ext.create("PSI.App", {
+			userName : "{$loginUserName}",
+			productionName : "{$productionName}"
+		});
+
+		var permission = {
+			add : "{$pAdd}",
+			edit : "{$pEdit}",
+			del : "{$pDelete}",
+			commit : "{$pCommit}"
+		};
+
+		app.add(Ext.create("PSI.US.MainForm", {
+			permission : permission
+		}));
+		app.setAppHeader({
+			title : "{$title}"
+		});
+	});
+</script>

@@ -1,0 +1,35 @@
+<layout name="layout" />
+
+<script
+	src="{$uri}Public/Scripts/PSI/User/OrgWithDataOrgField.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+<script
+	src="{$uri}Public/Scripts/PSI/Goods/GoodsField.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+
+<script
+	src="{$uri}Public/Scripts/PSI/US/USTMainForm.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+<script
+	src="{$uri}Public/Scripts/PSI/US/USTEditForm.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+<script
+	src="{$uri}Public/Scripts/PSI/US/SelectOrgForm.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+
+<script src="{$uri}Public/Scripts/PSI/UX/CellEditing.js?dt={$dtFlag}"
+	type="text/javascript"></script>
+
+<script>
+	Ext.onReady(function() {
+		var app = Ext.create("PSI.App", {
+			userName : "{$loginUserName}",
+			productionName : "{$productionName}"
+		});
+
+		app.add(Ext.create("PSI.US.USTMainForm"));
+		app.setAppHeader({
+			title : "{$title}"
+		});
+	});
+</script>
