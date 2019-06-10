@@ -57,6 +57,7 @@ class OrgController extends RestController
      * {
      *        "template_id": "BFA909BC-4100-11E9-88F5-00FF8088E341",
      *        "company_id": "4D74E1E4-A129-11E4-9B6A-782BCBD7746B",
+     *        "user_id":1,
      *        "items": [{
      *                "goods_id": 1,
      *                "unit_id": 1,

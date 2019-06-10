@@ -39,6 +39,7 @@ class OrgModel extends Model
 
         $pcTemplateId = $data['template_id'];
         $companyId = $data['company_id'];
+        $userId = $data['user_id'];
         $items = $data['items'];
 
         $poBillId = $this->newId();
@@ -58,8 +59,8 @@ class OrgModel extends Model
 				values ('%s', '%s', %d, '%s', '%s', '%s','%s',
 					%f, '%s', '%s',
 					'%s', '%s', '%s', '%s','%s',%d)";
-        $rc = $Model->execute($sql, $poBillId, $poBillRef, 0, date("Y-m-d H:i:s"), date("Y-m-d H:i:s"), $companyId, "6C2A09CD-A129-11E4-9B6A-782BCBD7746B",
-            $itemTotalPrice, "6C2A09CD-A129-11E4-9B6A-782BCBD7746B", 1,
+        $rc = $Model->execute($sql, $poBillId, $poBillRef, 0, date("Y-m-d H:i:s"), date("Y-m-d H:i:s"), $companyId, $userId,
+            $itemTotalPrice, $userId, 1,
             '小程序订购', date("Y-m-d H:i:s"), "01020001", $companyId, $pcTemplateId, 0);
         if ($rc === false) {
             return null;
