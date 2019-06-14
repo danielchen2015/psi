@@ -38,13 +38,26 @@ class OrgModel extends Model
         $itemTotalPrice = 0.00;
 
         $pcTemplateId = $data['template_id'];
-        $companyId = $data['company_id'];
         $userId = $data['user_id'];
         $items = $data['items'];
 
         $poBillId = $this->newId();
 
-        $poBillRef = $this->genNewBillRef($companyId);
+        $supplier_id = $Model->query("SELECT id FROM `t_supplier` LIMIT 1")[0]["id"];
+
+        $companyId = $Model->query("SELECT org_id FROM `t_user` WHERE id = '" . $data['user_id'] . "' LIMIT 1")[0]["org_id"];
+
+        $data_org = $Model->query("SELECT data_org FROM `t_user` WHERE id = '" . $data['user_id'] . "' LIMIT 1")[0]["data_org"];
+
+        if ($companyId == "4D74E1E4-A129-11E4-9B6A-782BCBD7746B") {
+            $poBillRef = $this->genNewBillRef($companyId);
+        } else {
+            $pre = $Model->query("SELECT org_code FROM t_org WHERE id = '" . $companyId . "'")[0]["org_code"];
+            $mid = date("Ymd");
+            $sufLength = 3;
+            $suf = str_pad($mid, $sufLength, "0", STR_PAD_LEFT);
+            $poBillRef = $pre . '-' . $mid . $suf . '-DHD';
+        }
 
         for ($i = 0; $i < count($items); $i++) {
             $goodsId = $items[$i]['goods_id'];
@@ -60,8 +73,8 @@ class OrgModel extends Model
 					%f, '%s', '%s',
 					'%s', '%s', '%s', '%s','%s',%d)";
         $rc = $Model->execute($sql, $poBillId, $poBillRef, 0, date("Y-m-d H:i:s"), date("Y-m-d H:i:s"), $companyId, $userId,
-            $itemTotalPrice, $userId, 1,
-            '小程序订购', date("Y-m-d H:i:s"), "01020001", $companyId, $pcTemplateId, 0);
+            $itemTotalPrice, $userId, $supplier_id,
+            '小程序订购', date("Y-m-d H:i:s"), $data_org, '4D74E1E4-A129-11E4-9B6A-782BCBD7746B', $pcTemplateId, 0);
         if ($rc === false) {
             return null;
         }
