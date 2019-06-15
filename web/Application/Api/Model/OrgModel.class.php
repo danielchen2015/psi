@@ -55,14 +55,21 @@ class OrgModel extends Model
             $pre = $Model->query("SELECT org_code FROM t_org WHERE id = '" . $companyId . "'")[0]["org_code"];
             $mid = date("Ymd");
             $sufLength = 3;
-            $suf = str_pad($mid, $sufLength, "0", STR_PAD_LEFT);
-            $poBillRef = $pre . '-' . $mid . $suf . '-DHD';
+            $suf = str_pad("", $sufLength, "0", STR_PAD_LEFT);
+            $poBillRef = $pre . '-' . $mid . $suf . range(0, 10000, 1)[0] . '-DHD';
         }
 
-        for ($i = 0; $i < count($items); $i++) {
+//        echo $supplier_id . "<br/>";
+//        echo $companyId . "<br/>";
+//        echo $data_org . "<br/>";
+//        echo $pre . "<br/>";
+//        echo $poBillRef . "<br/>";
+//        exit;
+
+        for ($i = 0; $i <= count($items); $i++) {
             $goodsId = $items[$i]['goods_id'];
             $count = $items[$i]['goods_count'];
-            $itemPrice = $Model->query("SELECT cost_price_checkups FROM `t_goods` WHERE id = " . $goodsId);
+            $itemPrice = $Model->query("SELECT cost_price_checkups FROM `t_goods` WHERE id = '" . $goodsId . "'");
             $itemTotalPrice = $itemTotalPrice + floatval($count * $itemPrice[0]['cost_price_checkups']);
         }
 
@@ -80,29 +87,31 @@ class OrgModel extends Model
         }
 
         // 明细表
-        for ($i = 0; $i < count($items); $i++) {
+        for ($j = 0; $j <= count($items); $j++) {
 
-            $goodsId = $items[$i]['goods_id'];
-            $goods_count = $items[$i]['goods_count'];
-            $show_order = $items[$i]['show_order'];
+            $goodsId = $items[$j]['goods_id'];
+            $goods_count = $items[$j]['goods_count'];
+            $show_order = $items[$j]['show_order'];
 
-            $unitId = $items[$i]['unit_id'];
+            $unitId = $items[$j]['unit_id'];
 
-            $itemPrice = $Model->query("SELECT cost_price_checkups FROM `t_goods` WHERE id = " . $goodsId);
-            $goodsMoney = floatval($goods_count * $itemPrice[0]['cost_price_checkups']);
+            $itemPrice = $Model->query("SELECT cost_price_checkups FROM `t_goods` WHERE id = '" . $goodsId . "'");
+            $goodsMoney = floatval($items[$j]['goods_count'] * $itemPrice[0]['cost_price_checkups']);
 
             $id = $this->newId();
-
+//            echo $goodsId . "<br/>";
+//            echo $unitId . "<br/>";
+//            exit;
             $sql = "insert into t_spo_bill_detail(id, spobill_id, pctemplate_detail_id, show_order,  goods_id, unit_id, goods_count,
 						goods_money, goods_price,  pw_count, left_count,
 						date_created, data_org, company_id, memo)
-					values ('%s', '%s', '%s', %d, %d, %d, %d,
+					values ('%s', '%s', '%s', %d, '%s', '%s', %d,
 					    %f, %f, %f, %d,
 						'%s', '%s', '%s', '%s')";
-            $rc = $Model->execute($sql, $id, $poBillId, $pcTemplateId, $show_order, $goodsId, $unitId, $goods_count,
+            $rcc = $Model->execute($sql, $id, $poBillId, $pcTemplateId, $show_order, $goodsId, $unitId, $goods_count,
                 $goodsMoney, $itemPrice[0]['cost_price_checkups'], $goods_count, 0,
-                date("Y-m-d H:i:s"), '01020001', $companyId, "小程序订购");
-            if ($rc === false) {
+                date("Y-m-d H:i:s"), $data_org, '4D74E1E4-A129-11E4-9B6A-782BCBD7746B', "小程序订购");
+            if ($rcc === false) {
                 return null;
             }
 

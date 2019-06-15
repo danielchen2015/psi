@@ -80,9 +80,9 @@ class OrgController extends RestController
      * }
      * @param $data
      */
-    public function orderAdd()
+    public function orderAdd($data)
     {
-        $data = $GLOBALS['HTTP_RAW_POST_DATA'];
+        //$data = $GLOBALS['HTTP_RAW_POST_DATA'];
 
         $postData = json_decode($data, true);
 

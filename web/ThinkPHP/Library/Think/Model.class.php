@@ -1370,6 +1370,7 @@ class Model {
             array_shift($parse);
         }
         $sql  =   $this->parseSql($sql,$parse);
+
         return $this->db->execute($sql);
     }
 
