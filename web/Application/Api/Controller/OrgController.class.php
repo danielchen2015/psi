@@ -52,6 +52,32 @@ class OrgController extends RestController
     }
 
     /**
+     * 获取此搜索物品列表
+     * @param $py
+     */
+    public function goodsList($py)
+    {
+        $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
+        $list = $Model->query("SELECT id AS goods_id, NAME, unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, company_id FROM t_goods AS g WHERE g.py LIKE '%" . $py . "%' limit 10");
+        $StoreOrderModel = new OrgModel();
+        echo $StoreOrderModel->api($list);
+        exit;
+    }
+
+    /**
+     * 获取物品详情
+     * @param $id
+     */
+    public function goodsDetails($goodname)
+    {
+        $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
+        $list = $Model->query("SELECT id AS goods_id, g.name, g.unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, company_id FROM t_goods AS g WHERE g.name = '" . $goodname . "'");
+        $StoreOrderModel = new OrgModel();
+        echo $StoreOrderModel->api($list);
+        exit;
+    }
+
+    /**
      * 提交订单, 传JSON格式
      * ex:
      * {
@@ -80,9 +106,11 @@ class OrgController extends RestController
      * }
      * @param $data
      */
-    public function orderAdd($data)
+    public function orderAdd()
     {
         //$data = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $data = I('post.data');
+        $data = str_replace('&quot;', '"', $data);
 
         $postData = json_decode($data, true);
 

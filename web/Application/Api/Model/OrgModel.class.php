@@ -81,7 +81,7 @@ class OrgModel extends Model
 					'%s', '%s', '%s', '%s','%s',%d)";
         $rc = $Model->execute($sql, $poBillId, $poBillRef, 0, date("Y-m-d H:i:s"), date("Y-m-d H:i:s"), $companyId, $userId,
             $itemTotalPrice, $userId, $supplier_id,
-            '小程序订购', date("Y-m-d H:i:s"), $data_org, '4D74E1E4-A129-11E4-9B6A-782BCBD7746B', $pcTemplateId, 0);
+            '', date("Y-m-d H:i:s"), $data_org, '4D74E1E4-A129-11E4-9B6A-782BCBD7746B', $pcTemplateId, 0);
         if ($rc === false) {
             return null;
         }
@@ -95,24 +95,24 @@ class OrgModel extends Model
 
             $unitId = $items[$j]['unit_id'];
 
-            $itemPrice = $Model->query("SELECT cost_price_checkups FROM `t_goods` WHERE id = '" . $goodsId . "'");
-            $goodsMoney = floatval($items[$j]['goods_count'] * $itemPrice[0]['cost_price_checkups']);
+            if($goods_count>0){
+                $itemPrice = $Model->query("SELECT cost_price_checkups FROM `t_goods` WHERE id = '" . $goodsId . "'");
+                $goodsMoney = floatval($items[$j]['goods_count'] * $itemPrice[0]['cost_price_checkups']);
 
-            $id = $this->newId();
-//            echo $goodsId . "<br/>";
-//            echo $unitId . "<br/>";
-//            exit;
-            $sql = "insert into t_spo_bill_detail(id, spobill_id, pctemplate_detail_id, show_order,  goods_id, unit_id, goods_count,
+                $id = $this->newId();
+
+                $sql = "insert into t_spo_bill_detail(id, spobill_id, pctemplate_detail_id, show_order,  goods_id, unit_id, goods_count,
 						goods_money, goods_price,  pw_count, left_count,
 						date_created, data_org, company_id, memo)
 					values ('%s', '%s', '%s', %d, '%s', '%s', %d,
 					    %f, %f, %f, %d,
 						'%s', '%s', '%s', '%s')";
-            $rcc = $Model->execute($sql, $id, $poBillId, $pcTemplateId, $show_order, $goodsId, $unitId, $goods_count,
-                $goodsMoney, $itemPrice[0]['cost_price_checkups'], $goods_count, 0,
-                date("Y-m-d H:i:s"), $data_org, '4D74E1E4-A129-11E4-9B6A-782BCBD7746B', "小程序订购");
-            if ($rcc === false) {
-                return null;
+                $rcc = $Model->execute($sql, $id, $poBillId, $pcTemplateId, $show_order, $goodsId, $unitId, $goods_count,
+                    $goodsMoney, $itemPrice[0]['cost_price_checkups'], $goods_count, 0,
+                    date("Y-m-d H:i:s"), $data_org, '4D74E1E4-A129-11E4-9B6A-782BCBD7746B', "");
+                if ($rcc === false) {
+                    return null;
+                }
             }
 
         }
