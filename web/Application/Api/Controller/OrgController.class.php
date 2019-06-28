@@ -32,7 +32,7 @@ class OrgController extends RestController
     public function templateList()
     {
         $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
-        $list = $Model->query("SELECT id, bill_memo FROM t_pc_template WHERE bill_status = 1000");
+        $list = $Model->query("SELECT id,full_name AS bill_memo FROM t_goods_category WHERE parent_id IS NULL");
         $StoreOrderModel = new OrgModel();
         echo $StoreOrderModel->api($list);
         exit;
@@ -45,7 +45,7 @@ class OrgController extends RestController
     public function templateDetails($id)
     {
         $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
-        $list = $Model->query("SELECT t.goods_id, g.name, t.unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = t.unit_id) AS unit_name, t.show_order, t.company_id FROM t_pc_template_detail AS t LEFT JOIN t_goods AS g ON g.id = t.goods_id WHERE pctemplate_id = '" . $id . "' ORDER BY show_order");
+        $list = $Model->query("SELECT id AS goods_id, g.name, g.unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, g.company_id, 0 as goods_count FROM t_goods AS g WHERE category_id = '" . $id . "' ORDER BY g.py");
         $StoreOrderModel = new OrgModel();
         echo $StoreOrderModel->api($list);
         exit;
@@ -58,7 +58,7 @@ class OrgController extends RestController
     public function goodsList($py)
     {
         $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
-        $list = $Model->query("SELECT id AS goods_id, NAME, unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, company_id FROM t_goods AS g WHERE g.py LIKE '%" . $py . "%' limit 10");
+        $list = $Model->query("SELECT id AS goods_id, NAME, unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, company_id, 0 as goods_count FROM t_goods AS g WHERE g.py LIKE '%" . $py . "%' limit 10");
         $StoreOrderModel = new OrgModel();
         echo $StoreOrderModel->api($list);
         exit;
@@ -71,7 +71,7 @@ class OrgController extends RestController
     public function goodsDetails($goodname)
     {
         $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
-        $list = $Model->query("SELECT id AS goods_id, g.name, g.unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, company_id FROM t_goods AS g WHERE g.name = '" . $goodname . "'");
+        $list = $Model->query("SELECT id AS goods_id, g.name, g.unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, company_id, 0 as goods_count FROM t_goods AS g WHERE g.name = '" . $goodname . "'");
         $StoreOrderModel = new OrgModel();
         echo $StoreOrderModel->api($list);
         exit;

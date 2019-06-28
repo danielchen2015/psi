@@ -40,6 +40,7 @@ class OrgModel extends Model
         $pcTemplateId = $data['template_id'];
         $userId = $data['user_id'];
         $items = $data['items'];
+        $memo = $data['memo'];
 
         $poBillId = $this->newId();
 
@@ -54,9 +55,21 @@ class OrgModel extends Model
         } else {
             $pre = $Model->query("SELECT org_code FROM t_org WHERE id = '" . $companyId . "'")[0]["org_code"];
             $mid = date("Ymd");
-            $sufLength = 3;
-            $suf = str_pad("", $sufLength, "0", STR_PAD_LEFT);
-            $poBillRef = $pre . '-' . $mid . $suf . range(0, 10000, 1)[0] . '-DHD';
+//            $sufLength = 3;
+//            $suf = str_pad("", $sufLength, "0", STR_PAD_LEFT);
+//            $poBillRef = $pre . '-' . $mid . $suf . range(0, 10000, 1)[0] . '-DHD';
+            $sql = "select ref from t_spo_bill where ref like '%s' order by date_created desc limit 1";
+            $data = $Model->query($sql, $pre . '-' . $mid . "%");
+            $sufLength = 4;
+            $suf = str_pad("1", $sufLength, "0", STR_PAD_LEFT);
+            if (!empty($data[0]["ref"])) {
+                $ref = $data[0]["ref"];
+                $nextNumber = intval(substr($ref, strlen($pre . '-' . $mid))) + 1;
+                $suf = str_pad($nextNumber, $sufLength, "0", STR_PAD_LEFT);
+            }
+
+            $poBillRef = $pre  . '-' . $mid . $suf . '-DHD';
+
         }
 
 //        echo $supplier_id . "<br/>";
@@ -81,7 +94,7 @@ class OrgModel extends Model
 					'%s', '%s', '%s', '%s','%s',%d)";
         $rc = $Model->execute($sql, $poBillId, $poBillRef, 0, date("Y-m-d H:i:s"), date("Y-m-d H:i:s"), $companyId, $userId,
             $itemTotalPrice, $userId, $supplier_id,
-            '', date("Y-m-d H:i:s"), $data_org, '4D74E1E4-A129-11E4-9B6A-782BCBD7746B', $pcTemplateId, 0);
+            $memo, date("Y-m-d H:i:s"), $data_org, '4D74E1E4-A129-11E4-9B6A-782BCBD7746B', $pcTemplateId, 0);
         if ($rc === false) {
             return null;
         }
@@ -95,7 +108,7 @@ class OrgModel extends Model
 
             $unitId = $items[$j]['unit_id'];
 
-            if($goods_count>0){
+            if ($goods_count > 0) {
                 $itemPrice = $Model->query("SELECT cost_price_checkups FROM `t_goods` WHERE id = '" . $goodsId . "'");
                 $goodsMoney = floatval($items[$j]['goods_count'] * $itemPrice[0]['cost_price_checkups']);
 
@@ -108,7 +121,7 @@ class OrgModel extends Model
 					    %f, %f, %f, %d,
 						'%s', '%s', '%s', '%s')";
                 $rcc = $Model->execute($sql, $id, $poBillId, $pcTemplateId, $show_order, $goodsId, $unitId, $goods_count,
-                    $goodsMoney, $itemPrice[0]['cost_price_checkups'], $goods_count, 0,
+                    $goodsMoney, $itemPrice[0]['cost_price_checkups'], 0, $goods_count,
                     date("Y-m-d H:i:s"), $data_org, '4D74E1E4-A129-11E4-9B6A-782BCBD7746B', "");
                 if ($rcc === false) {
                     return null;
