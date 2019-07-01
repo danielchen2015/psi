@@ -22,7 +22,7 @@ class UserController extends RestController
     public function Login($username, $password)
     {
         $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
-        $User = $Model->query("SELECT * FROM t_user WHERE login_name = '" . $username . "' and password = '" . md5($password) . "' ");
+        $User = $Model->query("SELECT id, NAME, org_id, org_code, py,gender,data_org, company_id, (SELECT NAME FROM t_org AS o WHERE o.id = u.org_id) AS org_name FROM t_user AS u WHERE enabled = 1 and login_name = '" . $username . "' and password = '" . md5($password) . "' ");
         $StoreOrderModel = new OrgModel();
         echo $StoreOrderModel->api($User);
         exit;

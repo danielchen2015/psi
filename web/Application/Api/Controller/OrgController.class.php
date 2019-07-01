@@ -45,7 +45,7 @@ class OrgController extends RestController
     public function templateDetails($id)
     {
         $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
-        $list = $Model->query("SELECT id AS goods_id, g.name, g.unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, g.company_id, 0 as goods_count FROM t_goods AS g WHERE category_id = '" . $id . "' ORDER BY g.py");
+        $list = $Model->query("SELECT id AS goods_id, g.name, g.unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, g.company_id, 0 as goods_count FROM t_goods AS g WHERE category_id = '" . $id . "' ORDER BY g.code");
         $StoreOrderModel = new OrgModel();
         echo $StoreOrderModel->api($list);
         exit;
