@@ -89,6 +89,15 @@ class OrgController extends RestController
         exit;
     }
 
+    public function pdtemplateList()
+    {
+        $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
+        $list = $Model->query("SELECT id,ref,input_user_id,bill_status,data_org,company_id FROM t_us_template ORDER BY date_created");
+        $StoreOrderModel = new OrgModel();
+        echo $StoreOrderModel->api($list);
+        exit;
+    }
+
     /**
      * 提交订单, 传JSON格式
      * ex:
