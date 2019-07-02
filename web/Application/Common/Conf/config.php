@@ -28,7 +28,7 @@ function PSI_getDBName() {
 		return $cfg["db"];
 	}
 	
-	return "psi";
+	return "crm_zbs";
 }
 
 function PSI_getUser() {
@@ -48,7 +48,7 @@ function PSI_getPassword() {
 		return $cfg["password"];
 	}
 	
-	return "daniel";
+	return "wzh123321";
 }
 
 function PSI_getPort() {

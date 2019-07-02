@@ -1317,7 +1317,7 @@ class USBillDAO extends PSIBaseExDAO {
 	}
 
 	/**
-	 * 提交消耗单
+	 * 提交消耗单更新库存
 	 *
 	 * @param array $params        	
 	 */
@@ -1392,7 +1392,7 @@ class USBillDAO extends PSIBaseExDAO {
 			
 			$outPriceForResult = 0;
 			
-			$rc = $invDAO->outAction($warehouseId, $goodsId, $qcBeginDT, $qcDays, $qcEndDT, $qcSN, 
+			$rc = $invDAO->inAction($warehouseId, $goodsId, $qcBeginDT, $qcDays, $qcEndDT, $qcSN, 
 					$goodsCount, $bizDT, $bizUserId, $ref, $refType, $outType, $recordIndex, $fmt, 
 					$outPriceForResult, $outMoneyForResult);
 			if ($rc) {

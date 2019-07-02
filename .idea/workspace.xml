@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1955fb56-c467-43e7-8fc9-e46a59ca69fd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/Application/Api/Controller/OrgController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/web/Application/Api/Controller/OrgController.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/Application/Common/Conf/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/web/Application/Common/Conf/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/Application/Home/DAO/InitInventoryDAO.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/web/Application/Home/DAO/InitInventoryDAO.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/Application/Home/DAO/USBillDAO.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/web/Application/Home/DAO/USBillDAO.class.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,11 +17,12 @@
     <session id="-1113061968">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="19" />
+          <entry key="project.closed" value="21" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.1" value="5" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.147" value="1" />
           <entry key="project.open.time.15" value="1" />
@@ -46,7 +49,7 @@
           <entry key="project.open.time.62" value="1" />
           <entry key="project.open.time.67" value="2" />
           <entry key="project.open.time.75" value="1" />
-          <entry key="project.opened" value="51" />
+          <entry key="project.opened" value="52" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -104,20 +107,7 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/Application/Api/Controller/OrgController.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="91" column="34" selection-start-line="91" selection-start-column="20" selection-end-line="91" selection-end-column="34" />
-              <folding>
-                <element signature="e#126#149#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -244,7 +234,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -435,6 +424,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -529,18 +519,18 @@
       <workItem from="1561792229880" duration="10687000" />
       <workItem from="1561875780212" duration="2928000" />
       <workItem from="1561960453479" duration="2994000" />
-      <workItem from="1561986810351" duration="730000" />
+      <workItem from="1561986810351" duration="1086000" />
+      <workItem from="1562060621450" duration="119000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="214807000" />
+    <option name="totallyTimeSpent" value="215282000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2182035" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22068231" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -553,7 +543,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.23712948" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.23704414" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32969603" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -915,11 +905,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/Application/Api/Controller/OrgController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="91" column="34" selection-start-line="91" selection-start-column="20" selection-end-line="91" selection-end-column="34" />
-          <folding>
-            <element signature="e#126#149#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="242">
+          <caret line="80" column="14" lean-forward="true" selection-start-line="80" selection-start-column="14" selection-end-line="80" selection-end-column="14" />
         </state>
       </provider>
     </entry>

@@ -48,7 +48,7 @@ class InitInventoryDAO extends PSIBaseExDAO {
 			if (! $data) {
 				$sql = "insert into t_inventory(warehouse_id, goods_id, in_count, in_price,
 						in_money, balance_count, balance_price, balance_money, data_org)
-						values ('%s', '%s', %d, %f, %f, %d, %f, %f, '%s') ";
+						values ('%s', '%s', %f, %f, %f, %f, %f, %f, '%s') ";
 				$rc = $db->execute($sql, $warehouseId, $goodsId, $goodsCount, $goodsPrice, 
 						$goodsMoney, $goodsCount, $goodsPrice, $goodsMoney, $dataOrg);
 				if ($rc === false) {
@@ -57,8 +57,8 @@ class InitInventoryDAO extends PSIBaseExDAO {
 			} else {
 				$id = $data[0]["id"];
 				$sql = "update t_inventory
-						set in_count = %d, in_price = %f, in_money = %f,
-						balance_count = %d, balance_price = %f, balance_money = %f
+						set in_count = %f, in_price = %f, in_money = %f,
+						balance_count = %f, balance_price = %f, balance_money = %f
 						where id = %d ";
 				$rc = $db->execute($sql, $goodsCount, $goodsPrice, $goodsMoney, $goodsCount, 
 						$goodsPrice, $goodsMoney, $id);
@@ -75,7 +75,7 @@ class InitInventoryDAO extends PSIBaseExDAO {
 				$sql = "insert into t_inventory_detail (warehouse_id, goods_id,  in_count, in_price,
 							in_money, balance_count, balance_price, balance_money,
 							biz_date, biz_user_id, date_created,  ref_number, ref_type, data_org)
-						values ('%s', '%s', %d, %f, %f, %d, %f, %f, curdate(), '%s', now(), '', '库存建账', '%s')";
+						values ('%s', '%s', %f, %f, %f, %f, %f, %f, curdate(), '%s', now(), '', '库存建账', '%s')";
 				$rc = $db->execute($sql, $warehouseId, $goodsId, $goodsCount, $goodsPrice, 
 						$goodsMoney, $goodsCount, $goodsPrice, $goodsMoney, $loginUserId, $dataOrg);
 				if ($rc === false) {
@@ -84,8 +84,8 @@ class InitInventoryDAO extends PSIBaseExDAO {
 			} else {
 				$id = $data[0]["id"];
 				$sql = "update t_inventory_detail
-						set in_count = %d, in_price = %f, in_money = %f,
-						balance_count = %d, balance_price = %f, balance_money = %f,
+						set in_count = %f, in_price = %f, in_money = %f,
+						balance_count = %f, balance_price = %f, balance_money = %f,
 						biz_date = curdate()
 						where id = %d ";
 				$rc = $db->execute($sql, $goodsCount, $goodsPrice, $goodsMoney, $goodsCount, 
@@ -129,7 +129,7 @@ class InitInventoryDAO extends PSIBaseExDAO {
 		
 		$qcSN = $params["qcSN"];
 		
-		$goodsCount = intval($params["goodsCount"]);
+		$goodsCount = floatval($params["goodsCount"]);
 		$goodsMoney = floatval($params["goodsMoney"]);
 		
 		if ($goodsCount < 0) {
@@ -198,7 +198,7 @@ class InitInventoryDAO extends PSIBaseExDAO {
 			$sql = "insert into t_inventory_fifo (warehouse_id, goods_id, in_count, in_price,
 						in_money, balance_count, balance_price, balance_money, data_org,
 						qc_begin_dt, qc_days, qc_end_dt, qc_sn, date_created)
-						values ('%s', '%s', %d, %f, %f, %d, %f, %f, '%s', '%s', %d, '%s', '%s', now()) ";
+						values ('%s', '%s', %f, %f, %f, %f, %f, %f, '%s', '%s', %d, '%s', '%s', now()) ";
 			$rc = $db->execute($sql, $warehouseId, $goodsId, $goodsCount, $goodsPrice, $goodsMoney, 
 					$goodsCount, $goodsPrice, $goodsMoney, $dataOrg, $qcBeginDT, $qcDays, $qcEndDT, 
 					$qcSN);
@@ -208,8 +208,8 @@ class InitInventoryDAO extends PSIBaseExDAO {
 		} else {
 			$id = $data[0]["id"];
 			$sql = "update t_inventory_fifo
-						set in_count = %d, in_price = %f, in_money = %f,
-						balance_count = %d, balance_price = %f, balance_money = %f
+						set in_count = %f, in_price = %f, in_money = %f,
+						balance_count = %f, balance_price = %f, balance_money = %f
 						where id = %d ";
 			$rc = $db->execute($sql, $goodsCount, $goodsPrice, $goodsMoney, $goodsCount, 
 					$goodsPrice, $goodsMoney, $id);
@@ -228,7 +228,7 @@ class InitInventoryDAO extends PSIBaseExDAO {
 						in_money, balance_count, balance_price, balance_money,
 						biz_date, biz_user_id, date_created,  ref_number, ref_type, data_org,
 						qc_begin_dt, qc_days, qc_end_dt, qc_sn)
-						values ('%s', '%s', %d, %f, %f, %d, %f, %f, curdate(), '%s', now(), '', '库存建账', '%s',
+						values ('%s', '%s', %f, %f, %f, %f, %f, %f, curdate(), '%s', now(), '', '库存建账', '%s',
 						'%s', %d, '%s', '%s')";
 			$rc = $db->execute($sql, $warehouseId, $goodsId, $goodsCount, $goodsPrice, $goodsMoney, 
 					$goodsCount, $goodsPrice, $goodsMoney, $loginUserId, $dataOrg, $qcBeginDT, 
@@ -239,8 +239,8 @@ class InitInventoryDAO extends PSIBaseExDAO {
 		} else {
 			$id = $data[0]["id"];
 			$sql = "update t_inventory_fifo_detail
-						set in_count = %d, in_price = %f, in_money = %f,
-						balance_count = %d, balance_price = %f, balance_money = %f,
+						set in_count = %f, in_price = %f, in_money = %f,
+						balance_count = %f, balance_price = %f, balance_money = %f,
 						biz_date = curdate()
 						where id = %d ";
 			$rc = $db->execute($sql, $goodsCount, $goodsPrice, $goodsMoney, $goodsCount, 
