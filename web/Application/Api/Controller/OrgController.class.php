@@ -32,7 +32,7 @@ class OrgController extends RestController
     public function templateList()
     {
         $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
-        $list = $Model->query("SELECT id,full_name AS bill_memo FROM t_goods_category WHERE parent_id IS NULL");
+        $list = $Model->query("SELECT id,full_name AS bill_memo FROM t_goods_category WHERE parent_id IS NULL order by code");
         $StoreOrderModel = new OrgModel();
         echo $StoreOrderModel->api($list);
         exit;
@@ -58,7 +58,7 @@ class OrgController extends RestController
     public function goodsList($py)
     {
         $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
-        $list = $Model->query("SELECT id AS goods_id, NAME, unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, company_id, 0 as goods_count FROM t_goods AS g WHERE g.py LIKE '%" . $py . "%' limit 10");
+        $list = $Model->query("SELECT id AS goods_id, NAME, unit_id, (SELECT NAME FROM t_goods_unit AS u WHERE u.id = g.unit_id) AS unit_name, use_qc AS show_order, company_id, 0 as goods_count FROM t_goods AS g WHERE g.name LIKE '%" . $py . "%' ORDER BY CODE limit 10");
         $StoreOrderModel = new OrgModel();
         echo $StoreOrderModel->api($list);
         exit;
@@ -155,20 +155,30 @@ class OrgController extends RestController
         $from_date = date("Y-m-d ", $from_date);
         $to_date = date("Y-m-d ", $to_date);
         $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
-        $sql = "SELECT b.id,b.ref,(SELECT NAME FROM t_org AS o WHERE o.id = b.org_id) AS org_name, (SELECT NAME FROM t_supplier AS s WHERE s.id = b.supplier_id) AS supplier_name,b.date_created AS gettime,u.name AS getuser,(SELECT NAME FROM t_warehouse AS w WHERE w.id = l.to_warehouse_id) AS getorgname,l.date_created AS fromtime,(SELECT NAME FROM t_user AS us WHERE us.id = l.input_user_id) AS fromuser,(SELECT NAME FROM t_warehouse AS w WHERE w.id = l.from_warehouse_id) AS fromorgname FROM t_spo_bill AS b LEFT JOIN t_user AS u ON b.input_user_id = u.id LEFT JOIN t_ld_bill AS l ON b.id = l.spobill_id where 1=1";
+        $sql = "SELECT ld.id, ld.bill_status, ld.ref, ld.biz_dt, u1.name AS biz_user_name, u2.name AS input_user_name, (SELECT NAME FROM t_user WHERE t_user.id = spo.input_user_id) AS to_user_name,
+					w.name AS to_warehouse_name,
+					ld.date_created, ld.bill_memo, g1.name AS to_org_name, g2.name AS from_org_name,
+					w2.name AS from_warehouse_name, spo.ref AS spobill_ref, ld.out_type, ld.spobill_id
+				FROM t_ld_bill ld, t_warehouse w, t_user u1, t_user u2, t_org g1, t_org g2,
+					t_warehouse w2, t_spo_bill spo
+				WHERE (ld.to_warehouse_id = w.id)
+					AND (ld.biz_user_id = u1.id) AND (ld.input_user_id = u2.id) 
+					AND (ld.to_org_id = g1.id) AND (ld.from_org_id = g2.id) 
+					AND (ld.from_warehouse_id = w2.id)
+					AND (ld.spobill_id = spo.id)";
         if (!empty($org_id)) {
-            $sql = $sql . " and b.org_id = '" . $org_id . "'";
+            $sql = $sql . " AND ld.to_org_id = '" . $org_id . "'";
         }
-        if (!empty($supplier_id)) {
-            $sql = $sql . " and b.supplier_id = '" . $supplier_id . "'";
-        }
+//        if (!empty($supplier_id)) {
+//            $sql = $sql . " and b.supplier_id = '" . $supplier_id . "'";
+//        }
         if (!empty($from_date) && !empty($to_date)) {
-            $sql = $sql . " and b.date_created BETWEEN '" . $from_date . " 00:00:00' AND '" . $to_date . " 23:59:59'";
+            $sql = $sql . " AND ld.biz_dt BETWEEN '" . $from_date . " 00:00:00' AND '" . $to_date . " 23:59:59'";
         }
         if (!empty($user_id)) {
-            $sql = $sql . " and b.input_user_id = '" . $user_id . "'";
+            $sql = $sql . " AND ld.input_user_id = '" . $user_id . "'";
         }
-        $sql = $sql . " order by b.date_created desc";
+        $sql = $sql . " ORDER BY ld.ref DESC";
 
         $list = $Model->query($sql);
         $StoreOrderModel = new OrgModel();
@@ -239,7 +249,7 @@ class OrgController extends RestController
             $commitMsg = $StoreOrderModel->commitLDBillForSRG($postData);
             if ($commitMsg == "") {
                 //第三步:门店退货提交入库
-//                $commitRej = $StoreOrderModel->commitLDBillRej($postData);
+                $commitRej = $StoreOrderModel->commitLDBillRej($postData);
 //                if ($commitRej == "") {
 //                    echo $StoreOrderModel->api('入库成功！', 200);
 //                    exit;
